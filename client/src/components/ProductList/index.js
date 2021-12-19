@@ -10,7 +10,7 @@ import { UPDATE_PRODUCTS } from '../../utils/actions';
 
 import { idbPromise } from "../../utils/helpers";
 
-// REDUX
+// REDUX IMPORTS
 import { useSelector, useDispatch } from 'react-redux'
 import store from '../../utils/Redux/store';
 
@@ -21,12 +21,12 @@ function ProductList() {
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  // REDUX
+  // REDUX VARIABLES
   const rState = store.getState();
   const rCurrentCategory = useSelector(rState => rState.currentCategory)
   const rProducts = useSelector(rState => rState.products)
   const rDispatch = useDispatch();
-  console.log('redux state: ', rState)
+  // console.log('redux state: ', rState)
 
   useEffect(() => {
     if (data) {
@@ -35,7 +35,7 @@ function ProductList() {
       //   products: data.products
       // });
 
-      // REDUX
+      // REDUX DISPATCH
       rDispatch({
         type: UPDATE_PRODUCTS,
         products: data.products
@@ -54,7 +54,7 @@ function ProductList() {
         //   products: products
         // });
 
-        // REDUX
+        // REDUX DISPATCH
         rDispatch({
           type: UPDATE_PRODUCTS,
           products: products

@@ -12,7 +12,7 @@ import store from '../../utils/Redux/store';
 function CategoryMenu() {
   const [state, dispatch] = useStoreContext();
 
-  const { categories } = state;
+  // const { categories } = state;
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
@@ -20,7 +20,7 @@ function CategoryMenu() {
   const rState = store.getState();
   const rCategories = useSelector(rState => rState.categories)
   const rDispatch = useDispatch();
-  console.log('redux state: ', rState)
+  // console.log('redux state: ', rState)
 
   useEffect(() => {
     if (categoryData) {

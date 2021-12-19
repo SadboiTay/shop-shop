@@ -5,10 +5,20 @@ import { useStoreContext } from '../../utils/GlobalState';
 import { ADD_TO_CART, UPDATE_CART_QUANTITY } from '../../utils/actions';
 import { idbPromise } from "../../utils/helpers";
 
+// REDUX IMPORTS
+import { useSelector, useDispatch } from 'react-redux'
+import store from '../../utils/Redux/store';
+
 function ProductItem(item) {
   const [state, dispatch] = useStoreContext();
 
   const { cart } = state;
+
+  // REDUX VARIABLES
+  const rState = store.getState();
+  const rDispatch = useDispatch();
+  const rCart = useSelector(rState => rState.cart)
+  console.log('redux state: ', rState)
 
   const addToCart = () => {
     const itemInCart = cart.find((cartItem) => cartItem._id === _id)
@@ -18,6 +28,14 @@ function ProductItem(item) {
         _id: _id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       });
+
+      // REDUX DISPATCH
+      rDispatch({
+        type: UPDATE_CART_QUANTITY,
+        _id: _id,
+        purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+      });
+
       idbPromise('cart', 'put', {
         ...itemInCart,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
@@ -27,10 +45,15 @@ function ProductItem(item) {
         type: ADD_TO_CART,
         product: { ...item, purchaseQuantity: 1 }
       });
+
+      // REDUX DISPATCH
+      rDispatch({
+        type: ADD_TO_CART,
+        product: { ...item, purchaseQuantity: 1 }
+      });
       idbPromise('cart', 'put', { ...item, purchaseQuantity: 1 });
     }
   }
-
 
   const {
     image,
