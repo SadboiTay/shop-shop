@@ -4,7 +4,7 @@ import reducer from './reducer'
 const initialState = {
     products: [],
     categories: [{ name: 'Food' }],
-    currentCategory: '1',
+    currentCategory: null,
     cart: [
         {
             _id: '1',
