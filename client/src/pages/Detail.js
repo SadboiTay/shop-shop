@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/client';
 import { QUERY_PRODUCTS } from '../utils/queries';
 import spinner from '../assets/spinner.gif';
 
-import { useStoreContext } from "../utils/GlobalState";
+// import { useStoreContext } from "../utils/GlobalState";
 import {
   REMOVE_FROM_CART,
   UPDATE_CART_QUANTITY,
@@ -17,21 +17,36 @@ import Cart from '../components/Cart';
 
 import { idbPromise } from "../utils/helpers";
 
+// REDUX IMPORTS
+import { useSelector, useDispatch } from 'react-redux'
+
 function Detail() {
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
   const { id } = useParams();
 
   const [currentProduct, setCurrentProduct] = useState({})
 
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
-  const { products, cart } = state;
+  // const { products, cart } = state;
+
+  // REDUX VARIABLES
+  const rDispatch = useDispatch();
+  const rCart = useSelector(state => state.cart);
+  const rProducts = useSelector(state => state.products);
 
   const addToCart = () => {
-    const itemInCart = cart.find((cartItem) => cartItem._id === id)
+    const itemInCart = rCart.find((cartItem) => cartItem._id === id)
 
     if (itemInCart) {
-      dispatch({
+      // dispatch({
+      //   type: UPDATE_CART_QUANTITY,
+      //   _id: id,
+      //   purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
+      // });
+
+      // REDUX DISPATCH
+      rDispatch({
         type: UPDATE_CART_QUANTITY,
         _id: id,
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
@@ -42,7 +57,13 @@ function Detail() {
         purchaseQuantity: parseInt(itemInCart.purchaseQuantity) + 1
       });
     } else {
-      dispatch({
+      // dispatch({
+      //   type: ADD_TO_CART,
+      //   product: { ...currentProduct, purchaseQuantity: 1 }
+      // });
+
+      // REDUX DISPATCH
+      rDispatch({
         type: ADD_TO_CART,
         product: { ...currentProduct, purchaseQuantity: 1 }
       });
@@ -52,7 +73,13 @@ function Detail() {
   }
 
   const removeFromCart = () => {
-    dispatch({
+    // dispatch({
+    //   type: REMOVE_FROM_CART,
+    //   _id: currentProduct._id
+    // });
+
+    // REDUX DISPATCH
+    rDispatch({
       type: REMOVE_FROM_CART,
       _id: currentProduct._id
     });
@@ -63,12 +90,18 @@ function Detail() {
 
   useEffect(() => {
     // already in global store
-    if (products.length) {
-      setCurrentProduct(products.find(product => product._id === id));
+    if (rProducts.length) {
+      setCurrentProduct(rProducts.find(product => product._id === id));
     }
     // retrieved from server
     else if (data) {
-      dispatch({
+      // dispatch({
+      //   type: UPDATE_PRODUCTS,
+      //   products: data.products
+      // });
+
+      // REDUX DISPATCH
+      rDispatch({
         type: UPDATE_PRODUCTS,
         products: data.products
       });
@@ -80,13 +113,19 @@ function Detail() {
     // get cache from idb
     else if (!loading) {
       idbPromise('products', 'get').then((indexedProducts) => {
-        dispatch({
+        // dispatch({
+        //   type: UPDATE_PRODUCTS,
+        //   products: indexedProducts
+        // });
+
+        // REDUX DISPATCH
+        rDispatch({
           type: UPDATE_PRODUCTS,
           products: indexedProducts
         });
       });
     }
-  }, [products, data, loading, dispatch, id]);
+  }, [rProducts, data, loading, rDispatch, id]);
 
   return (
     <>
@@ -102,7 +141,7 @@ function Detail() {
             <strong>Price:</strong>${currentProduct.price}{' '}
             <button onClick={addToCart}>Add to Cart</button>
             <button
-              disabled={!cart.find(p => p._id === currentProduct._id)}
+              disabled={!rCart.find(p => p._id === currentProduct._id)}
               onClick={removeFromCart}
             >
               Remove from Cart
