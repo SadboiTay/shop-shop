@@ -1,22 +1,11 @@
 import { createStore } from 'redux'
-import reducer from './reducer'
+import {reducer} from './reducer'
 
 const initialState = {
     products: [],
-    categories: [{ name: 'Food' }],
+    categories: [],
     currentCategory: null,
-    cart: [
-        {
-            _id: '1',
-            name: 'Soup',
-            purchaseQuantity: 1
-        },
-        {
-            _id: '2',
-            name: 'Bread',
-            purchaseQuantity: 2
-        }
-    ],
+    cart: [],
     cartOpen: false
 };
 

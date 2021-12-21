@@ -7,27 +7,24 @@ import { idbPromise } from '../../utils/helpers';
 
 // REDUX
 import { useSelector, useDispatch } from 'react-redux'
-import store from '../../utils/Redux/store';
 
 function CategoryMenu() {
-  const [state, dispatch] = useStoreContext();
+  // const [state, dispatch] = useStoreContext();
 
   // const { categories } = state;
 
   const { loading, data: categoryData } = useQuery(QUERY_CATEGORIES);
 
   // REDUX
-  const rState = store.getState();
-  const rCategories = useSelector(rState => rState.categories)
+  const rCategories = useSelector(state => state.categories)
   const rDispatch = useDispatch();
-  // console.log('redux state: ', rState)
 
   useEffect(() => {
     if (categoryData) {
-      dispatch({
-        type: UPDATE_CATEGORIES,
-        categories: categoryData.categories
-      });
+      // dispatch({
+      //   type: UPDATE_CATEGORIES,
+      //   categories: categoryData.categories
+      // });
       categoryData.categories.forEach(category => {
         idbPromise('categories', 'put', category);
       });
@@ -40,10 +37,10 @@ function CategoryMenu() {
 
     } else if (!loading) {
       idbPromise('categories', 'get').then(categories => {
-        dispatch({
-          type: UPDATE_CATEGORIES,
-          categories: categories
-        });
+        // dispatch({
+        //   type: UPDATE_CATEGORIES,
+        //   categories: categories
+        // });
         
         // REDUX
         rDispatch({
@@ -52,13 +49,13 @@ function CategoryMenu() {
         });
       });
     }
-  }, [categoryData, loading, dispatch]);
+  }, [categoryData, loading, rDispatch]);
 
   const handleClick = id => {
-    dispatch({
-      type: UPDATE_CURRENT_CATEGORY,
-      currentCategory: id
-    });
+    // dispatch({
+    //   type: UPDATE_CURRENT_CATEGORY,
+    //   currentCategory: id
+    // });
 
     // REDUX
     rDispatch({

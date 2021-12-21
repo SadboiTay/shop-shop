@@ -12,7 +12,6 @@ import { idbPromise } from "../../utils/helpers";
 
 // REDUX IMPORTS
 import { useSelector, useDispatch } from 'react-redux'
-import store from '../../utils/Redux/store';
 
 function ProductList() {
   // const [state, dispatch] = useStoreContext();
@@ -22,11 +21,9 @@ function ProductList() {
   const { loading, data } = useQuery(QUERY_PRODUCTS);
 
   // REDUX VARIABLES
-  const rState = store.getState();
-  const rCurrentCategory = useSelector(rState => rState.currentCategory)
-  const rProducts = useSelector(rState => rState.products)
+  const rCurrentCategory = useSelector(state => state.currentCategory)
+  const rProducts = useSelector(state => state.products)
   const rDispatch = useDispatch();
-  // console.log('redux state: ', rState)
 
   useEffect(() => {
     if (data) {

@@ -10,7 +10,7 @@ import {
     TOGGLE_CART
 } from '../actions';
 
-const reducer = (state, action) => {
+export const reducer = (state, action) => {
     switch (action.type) {
         // if action type value is the value of `UPDATE_PRODUCTS`, return a new state object with an updated products array
         case UPDATE_PRODUCTS:
@@ -84,5 +84,3 @@ const reducer = (state, action) => {
             return state;
     }
 };
-
-export default reducer;
