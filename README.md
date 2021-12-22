@@ -19,7 +19,7 @@
   ![image](https://user-images.githubusercontent.com/86327207/147026108-1def60a5-dc86-4cf8-8536-8590dd21ca75.png)
 
   # Usage
-  Navigate to the deployed site and try out typical e-commerce features, such as category search, product details, shopping cart funcitonality, and checkout with stripe- all globally managed states by Redux.
+  Navigate to the deployed site and try out typical e-commerce features, such as category search, product details, shopping cart functionality, and checkout with stripe- all globally managed states by Redux.
 
   # Built With
   React.js, MongoDB, Express.js, Node.js, Redux, Stripe
